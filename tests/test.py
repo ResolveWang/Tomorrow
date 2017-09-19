@@ -13,7 +13,6 @@ N = 2
 class TomorrowTestCase(unittest.TestCase):
 
     def test_threads_decorator(self):
-
         def slow_add(x, y):
             time.sleep(DELAY)
             return x + y
@@ -23,23 +22,22 @@ class TomorrowTestCase(unittest.TestCase):
             time.sleep(DELAY)
             return x + y
 
-        x, y = 2, 2
+        cur_x, cur_y = 2, 2
 
         start = time.time()
 
         results = []
         for i in range(N):
-            results.append(async_add(x, y))
+            results.append(async_add(cur_x, cur_y))
 
         checkpoint = time.time()
 
         for result in results:
-            print(result)
+            result._wait()
 
         end = time.time()
         assert (checkpoint - start) < DELAY
         assert DELAY < (end - start) < (DELAY * N)
-
 
     def test_shared_executor(self):
 
@@ -62,7 +60,7 @@ class TomorrowTestCase(unittest.TestCase):
             results.append(g(f(i)))
 
         for result in results:
-            print(result)
+            print(result._wait())
 
         end = time.time()
         assert (N * DELAY) < (end - start) < (2 * N * DELAY)
@@ -73,15 +71,17 @@ class TomorrowTestCase(unittest.TestCase):
         @threads(N, timeout=TIMEOUT)
         def raises_timeout_error():
             time.sleep(DELAY)
+            return 1
 
         with self.assertRaises(TimeoutError):
-            print(raises_timeout_error())
+            f = raises_timeout_error()
+            print(dir(f))
 
-        @threads(N, timeout=2*DELAY)
-        def no_timeout_error():
-            time.sleep(DELAY)
-
-        print(no_timeout_error())
+        # @threads(N, timeout=2*DELAY)
+        # def no_timeout_error():
+        #     time.sleep(DELAY)
+        #
+        # print(no_timeout_error())
 
     def test_future_function(self):
 
