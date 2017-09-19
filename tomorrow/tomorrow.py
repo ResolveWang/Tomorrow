@@ -3,21 +3,21 @@ from functools import wraps
 from concurrent.futures import ThreadPoolExecutor
 
 
-class Tomorrow():
+class Tomorrow:
 
     def __init__(self, future, timeout):
         self._future = future
         self._timeout = timeout
 
-    def __getattr__(self, name):
-        result = self._wait()
-        return result.__getattribute__(name)
+    @property
+    def result(self):
+        return self._wait()
 
     def _wait(self):
         return self._future.result(self._timeout)
         
 
-def async(n, base_type, timeout=None):
+def multiprocess_patch(n, base_type, timeout=None):
     def decorator(f):
         if isinstance(n, int):
             pool = base_type(n)
@@ -39,4 +39,4 @@ def async(n, base_type, timeout=None):
 
 
 def threads(n, timeout=None):
-    return async(n, ThreadPoolExecutor, timeout)
+    return multiprocess_patch(n, ThreadPoolExecutor, timeout)
