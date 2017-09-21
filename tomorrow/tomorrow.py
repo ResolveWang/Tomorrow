@@ -1,5 +1,6 @@
 from functools import wraps
 
+
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -10,7 +11,7 @@ class Tomorrow:
         self._timeout = timeout
 
     @property
-    def result(self):
+    def res(self):
         return self._wait()
 
     def _wait(self):
@@ -40,3 +41,4 @@ def multiprocess_patch(n, base_type, timeout=None):
 
 def threads(n, timeout=None):
     return multiprocess_patch(n, ThreadPoolExecutor, timeout)
+
