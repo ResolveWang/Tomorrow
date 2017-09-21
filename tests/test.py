@@ -33,7 +33,7 @@ class TomorrowTestCase(unittest.TestCase):
         checkpoint = time.time()
 
         for result in results:
-            result._wait()
+            print(result.result)
 
         end = time.time()
         assert (checkpoint - start) < DELAY
@@ -60,28 +60,26 @@ class TomorrowTestCase(unittest.TestCase):
             results.append(g(f(i)))
 
         for result in results:
-            print(result._wait())
+            print(result.res.res)
 
         end = time.time()
         assert (N * DELAY) < (end - start) < (2 * N * DELAY)
 
-
     def test_timeout(self):
-
         @threads(N, timeout=TIMEOUT)
         def raises_timeout_error():
             time.sleep(DELAY)
             return 1
-
+        raises_timeout_error()
         with self.assertRaises(TimeoutError):
             f = raises_timeout_error()
-            print(dir(f))
+            f.res
 
-        # @threads(N, timeout=2*DELAY)
-        # def no_timeout_error():
-        #     time.sleep(DELAY)
-        #
-        # print(no_timeout_error())
+        @threads(N, timeout=2*DELAY)
+        def no_timeout_error():
+            time.sleep(DELAY)
+
+        no_timeout_error()
 
     def test_future_function(self):
 
@@ -92,7 +90,7 @@ class TomorrowTestCase(unittest.TestCase):
             return f
 
         true = returns_function()
-        assert true()
+        assert true.res
 
     def test_wait(self):
 
