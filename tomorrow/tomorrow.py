@@ -16,7 +16,7 @@ class Tomorrow:
 
     def _wait(self):
         return self._future.result(self._timeout)
-        
+
 
 def multiprocess_patch(n, base_type, timeout=None):
     def decorator(f):
@@ -29,6 +29,7 @@ def multiprocess_patch(n, base_type, timeout=None):
                 "Invalid type: %s"
                 % type(base_type)
             )
+
         @wraps(f)
         def wrapped(*args, **kwargs):
             return Tomorrow(
