@@ -2,7 +2,6 @@ import time
 import unittest
 
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
-
 from tomorrow import threads
 
 DELAY = 0.5
@@ -33,7 +32,7 @@ class TomorrowTestCase(unittest.TestCase):
         checkpoint = time.time()
 
         for result in results:
-            print(result.result)
+            print(result.res)
 
         end = time.time()
         assert (checkpoint - start) < DELAY
