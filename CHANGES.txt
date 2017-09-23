@@ -22,3 +22,7 @@
 
 0.2.4
  - Remove `tests` folder from installed packages
+
+0.3.0
+ - Add support for Python3
+ - Add support for no-blocking io
