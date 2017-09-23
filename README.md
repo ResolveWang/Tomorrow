@@ -1,4 +1,4 @@
-[ ![Codeship Status for madisonmay/Tomorrow](https://codeship.com/projects/9a3b4c60-1b5b-0133-5ec7-7e346f2e432c/status?branch=master)](https://codeship.com/projects/94472)
+[![Build Status](https://travis-ci.org/ResolveWang/Tomorrow.svg?branch=master)](https://travis-ci.org/ResolveWang)
 
 # Tomorrow
 **Magic decorator syntax for asynchronous code in Python 3.**
