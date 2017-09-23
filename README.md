@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ResolveWang/Tomorrow.svg?branch=master)](https://travis-ci.org/ResolveWang)
+[![Build Status](https://travis-ci.org/ResolveWang/Tomorrow.svg?branch=master)](https://travis-ci.org/ResolveWang/Tomorrow)
 
 # Tomorrow
 **Magic decorator syntax for asynchronous code in Python 3.**
