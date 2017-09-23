@@ -1,11 +1,8 @@
 from setuptools import setup, find_packages
-from pip.req import parse_requirements
 
-
-install_reqs = parse_requirements('requirements.txt')
 
 setup(
-    name="tomorrow",
+    name="multitomorrow",
     version="0.3.0",
     author="ResolveWang",
     author_email="w1796246076@sina.com",
@@ -14,11 +11,12 @@ setup(
             'tests'
         ]
     ),
-    install_requires=install_reqs,
-    description="""
-        Magic decorator syntax for asynchronous code.
-    """,
+    install_requires=[
+        'gevent==1.2.2',
+        'nose==1.3.7'
+    ],
+    description="Magic decorator syntax for asynchronous code",
     license="MIT License (See LICENSE)",
-    long_description=open("README.rst").read(),
+    long_description='See https://github.com/ResolveWang/Tomorrow',
     url="https://github.com/ResolveWang/Tomorrow"
 )
