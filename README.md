@@ -16,7 +16,7 @@ pip install tomorrow
 
 or installable via `git clone` and `setup.py`
 ```
-git clone git@github.com:madisonmay/Tomorrow.git
+git clone https://github.com/ResolveWang/Tomorrow.git
 sudo python setup.py install
 ```
 
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     responses = [download(url) for url in urls]
     html = [response.text for response in responses]
     end = time.time()
-    print "Time: %f seconds" % (end - start)
+    print("Time: %f seconds" % (end - start))
 ```
 
 More Efficient Web Scraper

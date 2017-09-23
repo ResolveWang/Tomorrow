@@ -16,7 +16,7 @@ or installable via ``git clone`` and ``setup.py``
 
 ::
 
-    git clone git@github.com:madisonmay/Tomorrow.git
+    git clone https://github.com/ResolveWang/Tomorrow.git
     sudo python setup.py install
 
 Usage
@@ -46,12 +46,11 @@ rankings.
 .. code:: python
 
     urls = [
-        'http://google.com',
-        'http://facebook.com',
-        'http://youtube.com',
         'http://baidu.com',
+        'http://python.org',
+        'http://github.com',
+        'http://bing.com',
         'http://yahoo.com',
-    ]
 
 Right then, let's get on to the code.
 
@@ -69,7 +68,7 @@ Right then, let's get on to the code.
         responses = [download(url) for url in urls]
         html = [response.text for response in responses]
         end = time.time()
-        print "Time: %f seconds" % (end - start)
+        print("Time: %f seconds" % (end - start))
 
 More Efficient Web Scraper
 --------------------------
@@ -86,24 +85,33 @@ identically to how we would in a synchronous paradigm.
 
     from tomorrow import threads
 
-    @threads(5)
+    @threads(5, run_mode='sync')
     def download(url):
         return requests.get(url)
 
-    if __name__ == "__main__":
-        import time
+    @threads(5, run_mode='async')
+    def gdownload(url):
+        return requests.get(url)
 
+    if __name__ == "__main__":
         start = time.time()
         responses = [download(url) for url in urls]
-        html = [response.text for response in responses]
+        html = [response.res.text for response in responses]
         end = time.time()
-        print "Time: %f seconds" % (end - start)
+        print("Multi thread running time: %f seconds" % (end - start))
 
-Awesome! With a single line of additional code (and no explicit
-threading logic) we can now download websites ~10x as efficiently.
+        start = time.time()
+        responses = [gdownload(url) for url in urls]
+        html = [response.res.text for response in responses]
+        end = time.time()
+        print("Time: %f seconds" % (end - start))
 
-You can also optionally pass in a timeout argument, to prevent hanging
-on a task that is not guaranteed to return.
+Awesome!  With a single line of additional code (and no explicit threading logic) we can now download websites ~10x as efficiently.But note that it has side effects.The result that the function returns is the tomorrow obj.In order to get the result,
+we need to get the `res` attr.
+
+The program will run with multithread in 'sync' mode, while in 'async' mode, it will run with gevent.
+
+You can also optionally pass in a timeout argument, to prevent hanging on a task that is not guaranteed to return.
 
 .. code:: python
 
@@ -116,13 +124,11 @@ on a task that is not guaranteed to return.
         time.sleep(1)
 
     if __name__ == "__main__":
-        print raises_timeout_error()
+        print(raises_timeout_error().res)
 
 How Does it Work?
 -----------------
 
-Feel free to read the source for a peek behind the scenes -- it's less
-that 50 lines of code.
+Feel free to read the source for a peek behind the scenes -- it's less than 100 lines of code.
 
-.. |Codeship Status for madisonmay/Tomorrow| image:: https://codeship.com/projects/9a3b4c60-1b5b-0133-5ec7-7e346f2e432c/status?branch=master
-   :target: https://codeship.com/projects/94472
+
